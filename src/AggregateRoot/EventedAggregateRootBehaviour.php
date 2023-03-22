@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dflydev\EventSauce\Support\AggregateRoot;
 
+use Dflydev\EventSauce\Support\Identity\IdentityGeneration;
 use EventSauce\EventSourcing\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootBehaviour;
 use EventSauce\EventSourcing\AggregateRootId;
@@ -53,12 +54,17 @@ trait EventedAggregateRootBehaviour
      */
     public static function generateAggregateRootId(): AggregateRootId
     {
-        /** @var AggregateRootIdGeneration $identityClassName */
-        $identityClassName = static::aggregateRootIdClassName();
+        /** @phpstan-var class-string<AggregateRootIdAware> $thisClass */
+        $thisClass = static::class;
 
-        assert(in_array(AggregateRootIdGeneration::class, class_implements($identityClassName)), 'Aggregate root identity class must implement AggregateRootIdGeneration.');
+        assert(in_array(AggregateRootIdAware::class, class_implements($thisClass)), "Aggregate root \"$thisClass\" must implement AggregateRootIdAware.");
 
-        return $identityClassName::generateAggregateRootId();
+        /** @var class-string<IdentityGeneration> $identityClassName */
+        $identityClassName = $thisClass::aggregateRootIdClassName();
+
+        assert(in_array(IdentityGeneration::class, class_implements($identityClassName)), "Aggregate root identity \"$identityClassName\" must implement IdentityGeneration.");
+
+        return $identityClassName::generate();
     }
 
     /**
