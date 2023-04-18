@@ -10,7 +10,10 @@
     "autoload": {
         "psr-4": {
             "Dflydev\\EventSauce\\Support\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     },
     "extra": {
         "branch-alias": {
