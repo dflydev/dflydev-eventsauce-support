@@ -40,8 +40,6 @@ trait EventSourcedAggregateRootBehaviour
 
         $aggregateRootVersion = $events->getReturn();
 
-        // assert(is_int($aggregateRootVersion) && $aggregateRootVersion >= 0, 'Aggregate root version must be a non-negative integer.');
-
         $aggregateRoot->aggregateRootVersion = (is_int($aggregateRootVersion) && $aggregateRootVersion >= 0)
             ? $aggregateRootVersion
             : 0;
