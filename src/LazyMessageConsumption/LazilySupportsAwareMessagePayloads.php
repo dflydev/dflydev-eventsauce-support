@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dflydev\EventSauce\Support\LazyMessageConsumption;
 
-use Dflydev\EventSauce\Support\MessagePayloadConsumption\MessagePayloadHandler;
-use Dflydev\EventSauce\Support\MessagePayloadConsumption\SupportsAwareMessagePayloadHandler;
+use Dflydev\EventSauce\Support\MessagePayloadConsumption\MessagePayloadConsumer;
+use Dflydev\EventSauce\Support\MessagePayloadConsumption\SupportsAwareMessagePayloadConsumer;
 use EventSauce\EventSourcing\Message;
 
 trait LazilySupportsAwareMessagePayloads
@@ -18,7 +18,7 @@ trait LazilySupportsAwareMessagePayloads
     /**
      * @param object|class-string $payloadClassName
      *
-     * @see SupportsAwareMessagePayloadHandler::supportsMessage()
+     * @see SupportsAwareMessagePayloadConsumer::supportsMessage()
      */
     public static function supportsMessage(string|object $payloadClassName): bool
     {
@@ -28,7 +28,7 @@ trait LazilySupportsAwareMessagePayloads
     }
 
     /**
-     * @see MessagePayloadHandler::handleMessagePayload()
+     * @see MessagePayloadConsumer::handleMessagePayload()
      */
     public function handleMessagePayload(object $payload, Message $message): void
     {

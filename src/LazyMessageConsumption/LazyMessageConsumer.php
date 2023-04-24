@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dflydev\EventSauce\Support\LazyMessageConsumption;
 
-use Dflydev\EventSauce\Support\MessagePayloadConsumption\MessagePayloadHandler;
-use Dflydev\EventSauce\Support\MessagePayloadConsumption\SupportsAwareMessagePayloadHandler;
+use Dflydev\EventSauce\Support\MessagePayloadConsumption\MessagePayloadConsumer;
+use Dflydev\EventSauce\Support\MessagePayloadConsumption\SupportsAwareMessagePayloadConsumer;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageConsumer;
 use Psr\Container\ContainerExceptionInterface;
@@ -14,23 +14,23 @@ use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @template-covariant T of MessageConsumer
- * @template-covariant T of MessagePayloadHandler
- * @template-covariant T of SupportsAwareMessagePayloadHandler
+ * @template-covariant T of MessagePayloadConsumer
+ * @template-covariant T of SupportsAwareMessagePayloadConsumer
  */
 final readonly class LazyMessageConsumer implements MessageConsumer
 {
     /**
-     * @param class-string<T> $actualConsumerClassName
+     * @param class-string<T> $actualMessageConsumerClass
      */
     public function __construct(
         private ContainerInterface $container,
-        private string $actualConsumerClassName
+        private string $actualMessageConsumerClass
     ) {
     }
 
     public function actualConsumerClassName(): string
     {
-        return $this->actualConsumerClassName;
+        return $this->actualMessageConsumerClass;
     }
 
     /**
@@ -39,28 +39,28 @@ final readonly class LazyMessageConsumer implements MessageConsumer
      */
     public function handle(Message $message): void
     {
-        $actualConsumerClassName = $this->actualConsumerClassName;
+        $actualMessageConsumerClass = $this->actualMessageConsumerClass;
         $payload = $message->payload();
 
-        if (in_array(SupportsAwareMessagePayloadHandler::class, class_implements($actualConsumerClassName))) {
-            /** @var SupportsAwareMessagePayloadHandler $actualConsumerClassName */
-            if (!$actualConsumerClassName::supportsMessage($payload)) {
+        if (in_array(SupportsAwareMessagePayloadConsumer::class, class_implements($actualMessageConsumerClass))) {
+            /** @var SupportsAwareMessagePayloadConsumer $actualMessageConsumerClass */
+            if (!$actualMessageConsumerClass::supportsMessage($payload)) {
                 return;
             }
         }
 
-        if (in_array(MessagePayloadHandler::class, class_implements($actualConsumerClassName))) {
-            /** @var MessagePayloadHandler $actualConsumer */
-            $actualConsumer = $this->container->get($this->actualConsumerClassName);
+        if (in_array(MessagePayloadConsumer::class, class_implements($actualMessageConsumerClass))) {
+            /** @var MessagePayloadConsumer $actualConsumer */
+            $actualConsumer = $this->container->get($this->actualMessageConsumerClass);
 
             $actualConsumer->handleMessagePayload($payload, $message);
 
             return;
         }
 
-        if (in_array(MessageConsumer::class, class_implements($actualConsumerClassName))) {
+        if (in_array(MessageConsumer::class, class_implements($actualMessageConsumerClass))) {
             /** @var MessageConsumer $actualConsumer */
-            $actualConsumer = $this->container->get($this->actualConsumerClassName);
+            $actualConsumer = $this->container->get($this->actualMessageConsumerClass);
 
             $actualConsumer->handle($message);
 

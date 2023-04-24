@@ -6,7 +6,7 @@ namespace Dflydev\EventSauce\Support\MessagePayloadConsumption;
 
 use EventSauce\EventSourcing\Message;
 
-interface MessagePayloadHandler
+interface MessagePayloadConsumer
 {
     public function handleMessagePayload(object $payload, Message $message): void;
 }

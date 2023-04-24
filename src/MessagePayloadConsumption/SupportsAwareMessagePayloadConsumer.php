@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dflydev\EventSauce\Support\MessagePayloadConsumption;
 
-interface SupportsAwareMessagePayloadHandler extends MessagePayloadHandler
+interface SupportsAwareMessagePayloadConsumer extends MessagePayloadConsumer
 {
     /**
      * @return array<int,class-string>|array<class-string,string>

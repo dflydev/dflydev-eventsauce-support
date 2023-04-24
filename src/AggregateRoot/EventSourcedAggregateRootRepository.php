@@ -28,7 +28,7 @@ use function count;
  *
  * @property class-string<T> $aggregateRootClassName
  */
-final class EventSourcedAggregateRootRepository implements AggregateRootRepository
+final readonly class EventSourcedAggregateRootRepository implements AggregateRootRepository
 {
     private readonly MessagePreparation $messagePreparation;
 
@@ -36,13 +36,13 @@ final class EventSourcedAggregateRootRepository implements AggregateRootReposito
      * @param class-string<T> $aggregateRootClassName
      */
     public function __construct(
-        private readonly string $aggregateRootClassName,
-        private readonly Transaction $transaction,
-        private readonly MessageRepository $messageRepository,
+        private string $aggregateRootClassName,
+        private Transaction $transaction,
+        private MessageRepository $messageRepository,
         ?MessagePreparation $messagePreparation = null,
-        private readonly ?MessageDispatcher $transactionalMessageDispatcher = null,
-        private readonly ?MessageDispatcher $synchronousMessageDispatcher = null,
-        private readonly ?OutboxRepository $outboxRepository = null,
+        private ?MessageDispatcher $transactionalMessageDispatcher = null,
+        private ?MessageDispatcher $synchronousMessageDispatcher = null,
+        private ?OutboxRepository $outboxRepository = null,
     ) {
         $this->messagePreparation = $messagePreparation ?? new DefaultMessagePreparation();
     }
