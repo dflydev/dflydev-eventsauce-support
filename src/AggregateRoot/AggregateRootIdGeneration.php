@@ -7,7 +7,7 @@ namespace Dflydev\EventSauce\Support\AggregateRoot;
 use EventSauce\EventSourcing\AggregateRootId;
 
 /**
- * @template-covariant T of AggregateRootId
+ * @template T of AggregateRootId
  */
 interface AggregateRootIdGeneration
 {

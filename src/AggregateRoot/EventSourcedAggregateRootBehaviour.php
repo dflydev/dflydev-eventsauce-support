@@ -11,13 +11,13 @@ use Generator;
  * @template T of AggregateRootId
  *
  * @see AggregateRootBehaviour
- * @see AggregateRoot<T>
+ * @see AggregateRoot
  * @see EventSourcedAggregate
  */
 trait EventSourcedAggregateRootBehaviour
 {
     /**
-     * @uses EventedAggregateRootBehaviour<T>
+     * @use EventedAggregateRootBehaviour<T>
      */
     use EventedAggregateRootBehaviour;
 
@@ -29,6 +29,9 @@ trait EventSourcedAggregateRootBehaviour
         $this->aggregateRootId = $aggregateRootId;
     }
 
+    /**
+     * @phpstan-param T $aggregateRootId
+     */
     public static function reconstituteFromEvents(AggregateRootId $aggregateRootId, Generator $events): static
     {
         $aggregateRoot = self::createNewInstance($aggregateRootId);
@@ -47,6 +50,9 @@ trait EventSourcedAggregateRootBehaviour
         return $aggregateRoot;
     }
 
+    /**
+     * @phpstan-param T $aggregateRootId
+     */
     private static function createNewInstance(AggregateRootId $aggregateRootId): static
     {
         return new static($aggregateRootId);

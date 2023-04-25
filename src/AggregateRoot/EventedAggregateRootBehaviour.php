@@ -17,11 +17,14 @@ use Generator;
  * @method void apply(object $event)
  *
  * @see AggregateRootBehaviour
- * @see AggregateRoot<T>
+ * @see AggregateRoot
  * @see EventSourcedAggregate
  */
 trait EventedAggregateRootBehaviour
 {
+    /**
+     * @phpstan-var T
+     */
     private AggregateRootId $aggregateRootId;
 
     /** @phpstan-var 0|positive-int */
@@ -31,7 +34,7 @@ trait EventedAggregateRootBehaviour
     private array $recordedEvents = [];
 
     /**
-     * @return T
+     * @phpstan-return T
      */
     public function aggregateRootId(): AggregateRootId
     {
@@ -78,6 +81,9 @@ trait EventedAggregateRootBehaviour
         return $releasedEvents;
     }
 
+    /**
+     * @phpstan-param T $aggregateRootId
+     */
     public static function reconstituteFromEvents(AggregateRootId $aggregateRootId, Generator $events): static
     {
         throw new \LogicException('Evented aggregate roots cannot be reconstituted from events.');

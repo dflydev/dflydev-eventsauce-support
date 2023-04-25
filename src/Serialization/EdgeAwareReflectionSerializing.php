@@ -9,9 +9,6 @@ use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionObject;
 
-/**
- * @template T
- */
 trait EdgeAwareReflectionSerializing
 {
     public function toPayload(): array
