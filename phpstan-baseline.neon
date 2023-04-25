@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^PHPDoc tag @var for variable \\$aggregateRootType contains generic interface Dflydev\\\\EventSauce\\\\Support\\\\AggregateRoot\\\\AggregateRootIdAware but does not specify its types\\: T$#"
+			count: 1
+			path: src/Messages/MessageInflection.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$aggregateRootTypeString contains generic interface Dflydev\\\\EventSauce\\\\Support\\\\AggregateRoot\\\\AggregateRootIdAware but does not specify its types\\: T$#"
+			count: 1
+			path: src/Messages/MessageInflection.php
