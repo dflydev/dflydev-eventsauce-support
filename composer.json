@@ -14,12 +14,6 @@
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^9 || ^10"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/dflydev/dflydev-php-coding-standards"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Dflydev\\EventSauce\\Support\\": "src/"
