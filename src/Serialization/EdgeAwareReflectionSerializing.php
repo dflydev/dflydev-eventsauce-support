@@ -94,7 +94,9 @@ trait EdgeAwareReflectionSerializing
                 }
             }
 
-            $args[$constructorKey] = $payload[$key];
+            if (array_key_exists($key, $payload)) {
+                $args[$constructorKey] = $payload[$key];
+            }
         }
 
         return $class->newInstance(...$args);
