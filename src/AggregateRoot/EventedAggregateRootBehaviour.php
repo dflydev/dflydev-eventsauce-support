@@ -14,8 +14,6 @@ use Generator;
 /**
  * @template T of AggregateRootId
  *
- * @method void apply(object $event)
- *
  * @see AggregateRootBehaviour
  * @see AggregateRoot
  * @see EventSourcedAggregate

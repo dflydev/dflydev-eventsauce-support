@@ -84,11 +84,11 @@ trait EdgeAwareReflectionSerializing
                     continue;
                 }
 
-                if ($payload[$key] && $targetClass->implementsInterface(DateTimeInterface::class)) {
+                if (!is_null($payload[$key]) && $targetClass->implementsInterface(DateTimeInterface::class)) {
                     $payload[$key] = $targetClass->newInstance($payload[$key]);
                 }
 
-                if ($payload[$key] && $targetClass->implementsInterface(SerializablePayloadEdgeValue::class)) {
+                if (!is_null($payload[$key]) && $targetClass->implementsInterface(SerializablePayloadEdgeValue::class)) {
                     /** @var SerializablePayloadEdgeValue $targetClassName */
                     $payload[$key] = $targetClassName::fromPayloadValue($payload[$key]);
                 }
